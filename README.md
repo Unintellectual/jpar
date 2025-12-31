@@ -5,9 +5,7 @@ This is a simple json parser made in c++ for recreational programming
 ### Usage: 
 ```
 clang++ -o jpar src/jpar
-
 ./jpar src/test.json
-
 ```
 
 ## References
