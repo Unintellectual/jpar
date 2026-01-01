@@ -1,3 +1,5 @@
+#pragma once
+
 // Define valid token types
 
 typedef enum
