@@ -1,28 +1,14 @@
+#include "token.h"
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <iterator>
 #include <sstream>
 #include <string>
-#include <vector>
-
-enum TokenType {
-    LBRACE,
-    RBRACE,
-    STRING,
-    COLON,
-    END_OF_INPUT
-};
-
-struct Token {
-    TokenType type;
-    std::string value;
-};
 
 class JSONLexer {
 private:
     std::string input;
-    size_t current = 0;
+    size_t current { 0 };
 
 public:
     JSONLexer(const std::string& json_str)
