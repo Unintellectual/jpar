@@ -1,16 +1,30 @@
-#pragma once
+// Define valid token types
 
-#include <string>
+typedef enum
+{
+  LEFTCURLYBRACKET,   // {
+  RIGHTCURLYBRACKET,  // }
+  LEFTSQUAREBRACKET,  // [
+  RIGHTSQUAREBRACKET, // ]
+  LEFTROUNDBRACKET,   // (
+  RIGHTROUNDBRACKET,  // )
+  DOT,                // .
+  COLON,              // :
+  COMMA,              // ,
+  DOUBLEQUOTE,        // "
+  STRINGVALUE,        // string
+  BOOLEAN,            // true, false
+  NUMBER,             // number
+  NULLVALUE,          // null
+  UNKNOWN
+} tokenTypes_et;
 
-enum TokenType {
-    LBRACE,
-    RBRACE,
-    STRING,
-    COLON,
-    END_OF_INPUT
-};
+typedef int tokenTypes;
 
-struct Token {
-    TokenType type;
-    std::string value;
+// Define a token data type
+
+struct Token
+{
+  tokenTypes type;
+  std::string value;
 };
