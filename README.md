@@ -4,8 +4,9 @@ This is a simple json parser made in c++ for recreational programming
 
 ### Usage: 
 ```
-clang++ -o jpar src/main.cpp
-./jpar src/test.json
+mkdir build
+cd build
+cmake ../
 ```
 
 ## References
