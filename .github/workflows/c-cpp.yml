@@ -8,28 +8,37 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        compiler: [g++, clang++]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Set up C++ compiler
-      uses: actions/setup-cpp@v1
-      with:
-        cpp-version: '17'  # or the version you're using
+    - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake build-essential
+        sudo apt-get install -y \
+          cmake \
+          ${{ matrix.compiler == 'g++' && 'g++' || 'clang' }} \
+          clang-tools \
+          libc++-dev \
+          libc++abi-dev
 
     - name: Configure CMake
-      run: cmake -B build -S .
+      env:
+        CXX: ${{ matrix.compiler }}
+      run: |
+        cmake -B ${{github.workspace}}/build \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_CXX_STANDARD=23
 
     - name: Build
-      run: cmake --build build
+      run: cmake --build ${{github.workspace}}/build --parallel
 
-    - name: Run Tests
-      run: |
-        cd build
-        ctest --output-on-failure
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C Release --output-on-failure
