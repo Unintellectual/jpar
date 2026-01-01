@@ -1,25 +1,26 @@
 #pragma once
 
-#include "token.h"
 #include <string>
 #include <vector>
 
-std::string getTokenType (tokenTypes option);
+#include "token.h"
 
-void AddToken (std::vector<Token> &tokens, tokenTypes type, std::string value);
+std::string getTokenType(tokenTypes option);
 
-bool isNumber (std::string input);
+void AddToken(std::vector<Token>& tokens, tokenTypes type, std::string value);
 
-tokenTypes getValueType (std::string str);
+bool isNumber(std::string input);
 
-bool isClosingBracketOrComma (char ch);
+tokenTypes getValueType(std::string str);
 
-bool isValidEscapeCharacterForJSON (char ch);
+bool isClosingBracketOrComma(char ch);
 
-bool isControlCharacter (char ch);
+bool isValidEscapeCharacterForJSON(char ch);
 
-void displayTokens (std::vector<Token> &tokens);
+bool isControlCharacter(char ch);
 
-bool isValidString (std::string &str);
+void displayTokens(std::vector<Token>& tokens);
 
-void lexer (std::ifstream &file, std::vector<Token> &tokens);
+bool isValidString(std::string& str);
+
+void lexer(std::ifstream& file, std::vector<Token>& tokens);
