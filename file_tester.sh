@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Check if the 'json_parser' executable exists
-if [ ! -x ./json_parser ]; then
-  echo "Error: 'json_parser' executable not found or not executable."
+if [ ! -x build/src/jpar ]; then
+  echo "Error: 'jpar' executable not found or not executable."
   exit 1
 fi
 
 # Specify the folder containing the files
-folder="./tests/"
+folder="./test/"
 
 # Check if the folder exists
 if [ ! -d "$folder" ]; then
@@ -21,11 +21,11 @@ correct_result=0
 incorrect_result=0
 
 
-# Loop through all files in the folder and execute 'json_parser' for each file
+# Loop through all files in the folder and execute 'jpar' for each file
 for filename in "$folder"/*; do
   if [ -f "$filename" ]; then
     echo "Processing file: $filename"
-    output=$(./json_parser "$filename")
+    output=$(build/src/jpar "$filename")
     echo $output
     ((total_cases++))
     if [ "$output" == "VALID JSON" ] && [[ "$filename" == *pass* ]]; then
