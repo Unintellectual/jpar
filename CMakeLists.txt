@@ -32,5 +32,4 @@ include_directories(
 
 include(GNUInstallDirs)
 
-# Add source directory
 add_subdirectory(src)
