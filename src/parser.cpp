@@ -35,24 +35,20 @@ void displayParsingEnd() {
   std::cout << "-------------------------------\n\n";
 }
 
-void displayParsing(std::vector<Token>& tokens) {
+void displayParsing(std::vector<Token> &tokens) {
   if (!displayData) return;
   std::cout << tokens[parseIndex].value << "\n";
 }
 
-void eat(std::vector<Token>& tokens) {
+void eat(std::vector<Token> &tokens) {
   displayParsing(tokens);
   parseIndex++;
 }
 
-bool isClosingToken(tokenTypes type) {
-  return type == RIGHTCURLYBRACKET || type == RIGHTSQUAREBRACKET;
-}
+bool isClosingToken(tokenTypes type) { return type == RIGHTCURLYBRACKET || type == RIGHTSQUAREBRACKET; }
 
 bool isValidDataType(tokenTypes type) {
-  if (type == STRINGVALUE || type == NUMBER || type == BOOLEAN ||
-      type == NULLVALUE)
-    return true;
+  if (type == STRINGVALUE || type == NUMBER || type == BOOLEAN || type == NULLVALUE) return true;
 
   return false;
 }
@@ -90,7 +86,7 @@ bool isValidDataType(tokenTypes type) {
                [     {
 */
 
-bool parseLeftCurlyBracket(std::vector<Token>& tokens) {
+bool parseLeftCurlyBracket(std::vector<Token> &tokens) {
   eat(tokens);
 
   if (isInvalidIndex(parseIndex, tokenSize)) return false;
@@ -167,13 +163,12 @@ bool parseLeftCurlyBracket(std::vector<Token>& tokens) {
 
 */
 
-bool parseLeftSquareBracket(std::vector<Token>& tokens) {
+bool parseLeftSquareBracket(std::vector<Token> &tokens) {
   eat(tokens);
   if (isInvalidIndex(parseIndex, tokenSize)) return false;
 
-  if (tokens[parseIndex].type == LEFTSQUAREBRACKET ||
-      tokens[parseIndex].type == LEFTCURLYBRACKET ||
-      isValidDataType(tokens[parseIndex].type)) {
+  if (tokens[parseIndex].type == LEFTSQUAREBRACKET || tokens[parseIndex].type == LEFTCURLYBRACKET
+      || isValidDataType(tokens[parseIndex].type)) {
     if (tokens[parseIndex].type == LEFTSQUAREBRACKET) {
       if (!parseLeftSquareBracket(tokens)) return false;
     } else if (tokens[parseIndex].type == LEFTCURLYBRACKET) {
@@ -204,32 +199,32 @@ bool parseLeftSquareBracket(std::vector<Token>& tokens) {
   return true;
 }
 
-bool parser(std::vector<Token>& tokens) {
+bool parser(std::vector<Token> &tokens) {
   displayParsingStart();
 
   if (isInvalidIndex(parseIndex, tokenSize)) return false;
 
   switch (tokens[parseIndex].type) {
-    case LEFTCURLYBRACKET:
-      if (!parseLeftCurlyBracket(tokens)) return false;
+  case LEFTCURLYBRACKET:
+    if (!parseLeftCurlyBracket(tokens)) return false;
 
-      if (!isInvalidIndex(parseIndex, tokenSize)) {
-        displayParsing(tokens);
-        return false;
-      }
-      break;
-
-    case LEFTSQUAREBRACKET:
-      if (!parseLeftSquareBracket(tokens)) return false;
-      if (!isInvalidIndex(parseIndex, tokenSize)) {
-        displayParsing(tokens);
-        return false;
-      }
-      break;
-
-    default:
+    if (!isInvalidIndex(parseIndex, tokenSize)) {
       displayParsing(tokens);
       return false;
+    }
+    break;
+
+  case LEFTSQUAREBRACKET:
+    if (!parseLeftSquareBracket(tokens)) return false;
+    if (!isInvalidIndex(parseIndex, tokenSize)) {
+      displayParsing(tokens);
+      return false;
+    }
+    break;
+
+  default:
+    displayParsing(tokens);
+    return false;
   }
 
   displayParsingEnd();

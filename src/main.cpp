@@ -23,7 +23,7 @@
 #include "includes/parser.h"
 #include "includes/token.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   if (argc < 2 || argc > 3) {
     std::cerr << "Usage: " << argv[0] << " <fileName> [displayData]\n";
     return 1;

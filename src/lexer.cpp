@@ -14,7 +14,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "includes/lexer.h"
 
 #include <fstream>
 #include <iostream>
@@ -22,45 +21,46 @@
 #include <vector>
 
 #include "includes/common.h"
+#include "includes/lexer.h"
 #include "includes/parser.h"
 #include "includes/token.h"
 
 std::string getTokenType(tokenTypes option) {
   switch (option) {
-    case LEFTCURLYBRACKET:
-      return "LEFTCURLYBRACKET";
-    case RIGHTCURLYBRACKET:
-      return "RIGHTCURLYBRACKET";
-    case LEFTSQUAREBRACKET:
-      return "LEFTSQUAREBRACKET";
-    case RIGHTSQUAREBRACKET:
-      return "RIGHTSQUAREBRACKET";
-    case LEFTROUNDBRACKET:
-      return "LEFTROUNDBRACKET";
-    case RIGHTROUNDBRACKET:
-      return "RIGHTROUNDBRACKET";
-    case DOT:
-      return "DOT";
-    case COLON:
-      return "COLON";
-    case COMMA:
-      return "COMMA";
-    case DOUBLEQUOTE:
-      return "DOUBLEQUOTE";
-    case STRINGVALUE:
-      return "STRINGVALUE";
-    case BOOLEAN:
-      return "BOOLEAN";
-    case NUMBER:
-      return "NUMBER";
-    case NULLVALUE:
-      return "NULLVALUE";
-    default:
-      return "UNKNOWN";
+  case LEFTCURLYBRACKET:
+    return "LEFTCURLYBRACKET";
+  case RIGHTCURLYBRACKET:
+    return "RIGHTCURLYBRACKET";
+  case LEFTSQUAREBRACKET:
+    return "LEFTSQUAREBRACKET";
+  case RIGHTSQUAREBRACKET:
+    return "RIGHTSQUAREBRACKET";
+  case LEFTROUNDBRACKET:
+    return "LEFTROUNDBRACKET";
+  case RIGHTROUNDBRACKET:
+    return "RIGHTROUNDBRACKET";
+  case DOT:
+    return "DOT";
+  case COLON:
+    return "COLON";
+  case COMMA:
+    return "COMMA";
+  case DOUBLEQUOTE:
+    return "DOUBLEQUOTE";
+  case STRINGVALUE:
+    return "STRINGVALUE";
+  case BOOLEAN:
+    return "BOOLEAN";
+  case NUMBER:
+    return "NUMBER";
+  case NULLVALUE:
+    return "NULLVALUE";
+  default:
+    return "UNKNOWN";
   }
 }
 
-void AddToken(std::vector<Token>& tokens, tokenTypes type, std::string value) {
+void AddToken(std::vector<Token> &tokens, tokenTypes type, std::string value) {
   Token token;
   token.type = type;
   token.value = value;
@@ -68,8 +68,7 @@ void AddToken(std::vector<Token>& tokens, tokenTypes type, std::string value) {
 }
 
 bool isNumber(std::string input) {
-  std::regex numberPattern(
-      "^[-+]?(0|([1-9]\\d*\\.?\\d*)|0?\\.\\d+)([eE][-+]?\\d+)?$");
+  std::regex numberPattern("^[-+]?(0|([1-9]\\d*\\.?\\d*)|0?\\.\\d+)([eE][-+]?\\d+)?$");
 
   return std::regex_match(input, numberPattern);
 }
@@ -85,9 +84,7 @@ tokenTypes getValueType(std::string str) {
     return UNKNOWN;
 }
 
-bool isClosingBracketOrComma(char ch) {
-  return ch == ')' || ch == '}' || ch == ']' || ch == ',';
-}
+bool isClosingBracketOrComma(char ch) { return ch == ')' || ch == '}' || ch == ']' || ch == ','; }
 
 /*  Escape characters are special characters used in strings and text to
    represent characters that are difficult or impossible to represent directly.
@@ -97,8 +94,7 @@ bool isClosingBracketOrComma(char ch) {
 */
 
 bool isValidEscapeCharacterForJSON(char ch) {
-  if (ch == '"' || ch == '\\' || ch == '/' || ch == 'b' || ch == 'f' ||
-      ch == 'n' || ch == 'r' || ch == 't')
+  if (ch == '"' || ch == '\\' || ch == '/' || ch == 'b' || ch == 'f' || ch == 'n' || ch == 'r' || ch == 't')
     return true;
   return false;
 }
@@ -116,14 +112,12 @@ bool isValidEscapeCharacterForJSON(char ch) {
 
 bool isControlCharacter(char ch) { return (std::iscntrl(ch)); }
 
-void displayTokens(std::vector<Token>& tokens) {
+void displayTokens(std::vector<Token> &tokens) {
   if (!displayData) return;
 
   std::cout << "Tokenization:\n";
   std::cout << "-------------------------------\n";
-  for (auto& token : tokens) {
-    std::cout << getTokenType(token.type) << " : " << token.value << "\n";
-  }
+  for (auto &token : tokens) { std::cout << getTokenType(token.type) << " : " << token.value << "\n"; }
   std::cout << "-------------------------------\n\n";
 }
 
@@ -133,7 +127,7 @@ void displayTokens(std::vector<Token>& tokens) {
     character after it.
 */
 
-bool isValidString(std::string& str) {
+bool isValidString(std::string &str) {
   for (int index = 0; index < str.length(); index++) {
     if (str[index] == '\\') {
       index++;
@@ -161,7 +155,7 @@ bool isValidString(std::string& str) {
 
 // Perform lexical analysis
 
-void lexer(std::ifstream& file, std::vector<Token>& tokens) {
+void lexer(std::ifstream &file, std::vector<Token> &tokens) {
   std::string line;
   while (getline(file, line)) {
     int index = 0;
@@ -173,97 +167,95 @@ void lexer(std::ifstream& file, std::vector<Token>& tokens) {
       }
 
       switch (line[index]) {
-        case '{':
-          AddToken(tokens, LEFTCURLYBRACKET, "{");
-          break;
+      case '{':
+        AddToken(tokens, LEFTCURLYBRACKET, "{");
+        break;
 
-        case '}':
-          AddToken(tokens, RIGHTCURLYBRACKET, "}");
-          break;
+      case '}':
+        AddToken(tokens, RIGHTCURLYBRACKET, "}");
+        break;
 
-        case '[':
-          AddToken(tokens, LEFTSQUAREBRACKET, "[");
-          break;
+      case '[':
+        AddToken(tokens, LEFTSQUAREBRACKET, "[");
+        break;
 
-        case ']':
-          AddToken(tokens, RIGHTSQUAREBRACKET, "]");
-          break;
+      case ']':
+        AddToken(tokens, RIGHTSQUAREBRACKET, "]");
+        break;
 
-        case '(':
-          AddToken(tokens, LEFTROUNDBRACKET, "(");
-          break;
+      case '(':
+        AddToken(tokens, LEFTROUNDBRACKET, "(");
+        break;
 
-        case ')':
-          AddToken(tokens, RIGHTROUNDBRACKET, ")");
-          break;
+      case ')':
+        AddToken(tokens, RIGHTROUNDBRACKET, ")");
+        break;
 
-        case ':':
-          AddToken(tokens, COLON, ":");
-          break;
+      case ':':
+        AddToken(tokens, COLON, ":");
+        break;
 
-        case ',':
-          AddToken(tokens, COMMA, ",");
-          break;
+      case ',':
+        AddToken(tokens, COMMA, ",");
+        break;
 
-        case '"': {
-          std::string str = "";
-          bool strEndsWithDoubleQuotes = false;
+      case '"': {
+        std::string str = "";
+        bool strEndsWithDoubleQuotes = false;
+
+        str += line[index];
+        index++;
+
+        while (index < line.length()) {
+          if (line[index] == '\\')// backslash
+          {
+            str += line[index];// adding backslash to str
+            index++;
+            if (index < line.length()) {
+              str += line[index];
+              index++;
+            }
+            continue;
+          } else if (isControlCharacter(line[index])) {
+            str += line[index];// add control character
+            break;
+          }
+
+          if (line[index] == '"') {
+            str += line[index];// adding " to str
+            // used to check whether the string
+            // has ended with a doublequote
+            strEndsWithDoubleQuotes = true;
+            break;
+          }
+          str += line[index];
+          index++;
+        }
+
+        if (isValidString(str) && strEndsWithDoubleQuotes)
+          AddToken(tokens, STRINGVALUE, str);
+        else {
+          AddToken(tokens, UNKNOWN, str);
+          return;
+        }
+      } break;
+
+      default: {
+        std::string str = "";
+        while (index < line.length() && !isClosingBracketOrComma(line[index])) {
+          if (isspace(line[index])) break;
 
           str += line[index];
           index++;
-
-          while (index < line.length()) {
-            if (line[index] == '\\')  // backslash
-            {
-              str += line[index];  // adding backslash to str
-              index++;
-              if (index < line.length()) {
-                str += line[index];
-                index++;
-              }
-              continue;
-            } else if (isControlCharacter(line[index])) {
-              str += line[index];  // add control character
-              break;
-            }
-
-            if (line[index] == '"') {
-              str += line[index];  // adding " to str
-              // used to check whether the string
-              // has ended with a doublequote
-              strEndsWithDoubleQuotes = true;
-              break;
-            }
-            str += line[index];
-            index++;
-          }
-
-          if (isValidString(str) && strEndsWithDoubleQuotes)
-            AddToken(tokens, STRINGVALUE, str);
-          else {
-            AddToken(tokens, UNKNOWN, str);
-            return;
-          }
-        } break;
-
-        default: {
-          std::string str = "";
-          while (index < line.length() &&
-                 !isClosingBracketOrComma(line[index])) {
-            if (isspace(line[index])) break;
-
-            str += line[index];
-            index++;
-          }
-
-          tokenTypes valueType = getValueType(str);
-          AddToken(tokens, valueType, str);
-
-          if (valueType == UNKNOWN) return;
-
-          if (index < line.length() && isClosingBracketOrComma(line[index]))
-            index--;
         }
+
+        tokenTypes valueType = getValueType(str);
+        AddToken(tokens, valueType, str);
+
+        if (valueType == UNKNOWN) return;
+
+        if (index < line.length() && isClosingBracketOrComma(line[index])) index--;
+      }
       }
       index++;
     }
