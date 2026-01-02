@@ -8,8 +8,6 @@
 #include "common.h"
 #include "token.h"
 
-// To get a token type in string format
-
 std::string getTokenType(tokenTypes option) {
   switch (option) {
     case LEFTCURLYBRACKET:
@@ -45,8 +43,6 @@ std::string getTokenType(tokenTypes option) {
   }
 }
 
-// Add a token to the tokens vector
-
 void AddToken(std::vector<Token>& tokens, tokenTypes type, std::string value) {
   Token token;
   token.type = type;
@@ -54,18 +50,12 @@ void AddToken(std::vector<Token>& tokens, tokenTypes type, std::string value) {
   tokens.push_back(token);
 }
 
-// Check whether the string is a valid number
-
 bool isNumber(std::string input) {
-  // Regular expression to match valid numbers
   std::regex numberPattern(
       "^[-+]?(0|([1-9]\\d*\\.?\\d*)|0?\\.\\d+)([eE][-+]?\\d+)?$");
 
-  // Check if the input matches the pattern
   return std::regex_match(input, numberPattern);
 }
-
-// Check whether the value is a number, boolean, null
 
 tokenTypes getValueType(std::string str) {
   if (str == "true" || str == "false")
@@ -77,8 +67,6 @@ tokenTypes getValueType(std::string str) {
   else
     return UNKNOWN;
 }
-
-// Check whether the character is a closing bracket or a comma
 
 bool isClosingBracketOrComma(char ch) {
   return ch == ')' || ch == '}' || ch == ']' || ch == ',';
@@ -110,8 +98,6 @@ bool isValidEscapeCharacterForJSON(char ch) {
 */
 
 bool isControlCharacter(char ch) { return (std::iscntrl(ch)); }
-
-//  Displaying the tokens created in lexical analysis
 
 void displayTokens(std::vector<Token>& tokens) {
   if (!displayData) return;
@@ -150,7 +136,6 @@ bool isValidString(std::string& str) {
           if (index >= str.length() || !isxdigit(str[index])) return false;
         }
       } else
-        // Any other character following a backslash is invalid
         return false;
     }
   }
@@ -204,11 +189,10 @@ void lexer(std::ifstream& file, std::vector<Token>& tokens) {
           break;
 
         case '"': {
-          // Check for String values
           std::string str = "";
           bool strEndsWithDoubleQuotes = false;
 
-          str += line[index];  // adding " to str
+          str += line[index];
           index++;
 
           while (index < line.length()) {
@@ -246,7 +230,6 @@ void lexer(std::ifstream& file, std::vector<Token>& tokens) {
         } break;
 
         default: {
-          // Check for Number, Boolean and NULL values
           std::string str = "";
           while (index < line.length() &&
                  !isClosingBracketOrComma(line[index])) {
@@ -256,7 +239,6 @@ void lexer(std::ifstream& file, std::vector<Token>& tokens) {
             index++;
           }
 
-          // Check whether the value is a number, boolean, null
           tokenTypes valueType = getValueType(str);
           AddToken(tokens, valueType, str);
 
@@ -266,7 +248,7 @@ void lexer(std::ifstream& file, std::vector<Token>& tokens) {
             index--;
         }
       }
-      index++;  // read next character
+      index++;
     }
   }
 }

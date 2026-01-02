@@ -6,4 +6,4 @@ extern int tokenSize;
 extern bool displayData;
 
 // Function declarations for globally used functions
-extern bool isInvalidIndex (int index, int size);
+extern bool isInvalidIndex(int index, int size);
