@@ -16,7 +16,7 @@ if [ ! -d "$folder" ]; then
 fi
 
 # Initialize counters for VALID JSON and INVALID JSON
-total_cases=0
+total_cases=-1
 correct_result=0
 incorrect_result=0
 
@@ -29,9 +29,9 @@ for filename in "$folder"/*; do
     echo $output
     ((total_cases++))
     if [ "$output" == "VALID JSON" ] && [[ "$filename" == *pass* ]]; then
-      ((correct_result++))
+      ((correct_result++ ))
     elif [ "$output" == "INVALID JSON" ] && [[ "$filename" == *fail* ]]; then
-      ((correct_result++))
+      ((correct_result++ ))
     fi
   fi
 done
