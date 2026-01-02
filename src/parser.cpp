@@ -1,10 +1,26 @@
-#include "parser.h"  // wtf is this formatting from clang
+/*
+ * Copyright (c) 2026 Noah Victoriano official.noah.victoriano@gmail.com
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 2.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include "includes/parser.h"
 
 #include <iostream>
 #include <vector>
 
-#include "common.h"
-#include "token.h"
+#include "includes/common.h"
+#include "includes/token.h"
 
 void displayParsingStart() {
   if (!displayData) return;
@@ -21,7 +37,6 @@ void displayParsingEnd() {
 
 void displayParsing(std::vector<Token>& tokens) {
   if (!displayData) return;
-
   std::cout << tokens[parseIndex].value << "\n";
 }
 
@@ -96,10 +111,11 @@ bool parseLeftCurlyBracket(std::vector<Token>& tokens) {
       if (!parseLeftCurlyBracket(tokens)) return false;
     } else if (tokens[parseIndex].type == LEFTSQUAREBRACKET) {
       if (!parseLeftSquareBracket(tokens)) return false;
-    } else if (isValidDataType(tokens[parseIndex].type))
+    } else if (isValidDataType(tokens[parseIndex].type)) {
       eat(tokens);
-    else
+    } else {
       return false;
+    }
 
     if (isInvalidIndex(parseIndex, tokenSize)) return false;
 
@@ -109,14 +125,16 @@ bool parseLeftCurlyBracket(std::vector<Token>& tokens) {
       if (isClosingToken(tokens[parseIndex + 1].type)) return false;
 
       if (!parseLeftCurlyBracket(tokens)) return false;
-    } else if (tokens[parseIndex].type == RIGHTCURLYBRACKET)
+    } else if (tokens[parseIndex].type == RIGHTCURLYBRACKET) {
       eat(tokens);
-    else
+    } else {
       return false;
-  } else if (tokens[parseIndex].type == RIGHTCURLYBRACKET)
+    }
+  } else if (tokens[parseIndex].type == RIGHTCURLYBRACKET) {
     eat(tokens);
-  else
+  } else {
     return false;
+  }
 
   return true;
 }
@@ -160,8 +178,9 @@ bool parseLeftSquareBracket(std::vector<Token>& tokens) {
       if (!parseLeftSquareBracket(tokens)) return false;
     } else if (tokens[parseIndex].type == LEFTCURLYBRACKET) {
       if (!parseLeftCurlyBracket(tokens)) return false;
-    } else if (isValidDataType(tokens[parseIndex].type))
+    } else if (isValidDataType(tokens[parseIndex].type)) {
       eat(tokens);
+    }
 
     if (isInvalidIndex(parseIndex, tokenSize)) return false;
 
@@ -171,15 +190,17 @@ bool parseLeftSquareBracket(std::vector<Token>& tokens) {
       if (isClosingToken(tokens[parseIndex + 1].type)) return false;
 
       if (!parseLeftSquareBracket(tokens)) return false;
-    } else if (tokens[parseIndex].type == RIGHTSQUAREBRACKET)
+    } else if (tokens[parseIndex].type == RIGHTSQUAREBRACKET) {
       eat(tokens);
-    else
+    } else {
       return false;
-  } else if (tokens[parseIndex].type == RIGHTSQUAREBRACKET)
-    eat(tokens);
-  else
-    return false;
+    }
 
+  } else if (tokens[parseIndex].type == RIGHTSQUAREBRACKET) {
+    eat(tokens);
+  } else {
+    return false;
+  }
   return true;
 }
 
@@ -212,6 +233,5 @@ bool parser(std::vector<Token>& tokens) {
   }
 
   displayParsingEnd();
-
   return true;
 }
