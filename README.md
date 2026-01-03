@@ -8,19 +8,6 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-### Parsing Flow Diagram
-```
-Raw Input 
-  ↓ (Tokenizer)
-Token Stream 
-  ↓ (Lexer)
-Categorized Tokens 
-  ↓ (Parser)
-Validity Check Result
-  ↓ (Validation)
-Valid/Invalid JSON Result
-```
-
 ### Parsing Stages
 
 | Stage         | Function     | Description                                        | Key Operations                                        |
