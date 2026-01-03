@@ -8,15 +8,6 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-### Parsing Stages
-
-| Stage         | Function     | Description                                        | Key Operations                                        |
-|---------------|--------------|----------------------------------------------------|------------------------------------------------------|
-| <b>Tokenizer</b> | `tokenizer()` | Breaks input into individual tokens                | - Reads input character by character<br>- Identifies JSON elements<br>- Converts raw input into a token stream |
-| <b>Lexer</b>    | `lexer()`    | Analyzes and categorizes tokens                     | - Validates token types<br>- Checks token syntax<br>- Prepares tokens for final parsing |
-| <b>Parser</b>   | `parser()`   | Checks the validity of the JSON structure           | - Validates hierarchical relationships<br>- Ensures all syntax rules are followed |
-| <b>Validation</b>| Final Check  | Determines validity of the JSON                     | - Confirms complete parsing<br>- Returns valid/invalid status based on checks |
-
 ### Parsing Flow Diagram
 ```
 Raw Input 
@@ -29,6 +20,15 @@ Validity Check Result
   ↓ (Validation)
 Valid/Invalid JSON Result
 ```
+
+### Parsing Stages
+
+| Stage         | Function     | Description                                        | Key Operations                                        |
+|---------------|--------------|----------------------------------------------------|------------------------------------------------------|
+| <b>Tokenizer</b> | `tokenizer()` | Breaks input into individual tokens                | - Reads input character by character<br>- Identifies JSON elements<br>- Converts raw input into a token stream |
+| <b>Lexer</b>    | `lexer()`    | Analyzes and categorizes tokens                     | - Validates token types<br>- Checks token syntax<br>- Prepares tokens for final parsing |
+| <b>Parser</b>   | `parser()`   | Checks the validity of the JSON structure           | - Validates hierarchical relationships<br>- Ensures all syntax rules are followed |
+| <b>Validation</b>| Final Check  | Determines validity of the JSON                     | - Confirms complete parsing<br>- Returns valid/invalid status based on checks |
 
 
 ## References
