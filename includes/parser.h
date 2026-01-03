@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (c) 2026 Noah Victoriano official.noah.victoriano@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,20 +19,20 @@
 
 #include "token.h"
 
-bool parseLeftCurlyBracket(std::vector<Token>& tokens);
+namespace jpar {
 
-bool parseLeftSquareBracket(std::vector<Token>& tokens);
+class Parser
+{
+public:
+  static bool parseLeftCurlyBracket(std::vector<TokenType> token);
+  static bool parseLeftSquareBracket(std::vector<TokenType> &tokens);
+  static void displayParsingStart();
+  static void displayParsingEnd();
+  static void displayParsing(std::vector<TokenType> &tokens);
+  static void eat(std::vector<TokenType> &tokens);
+  static bool isClosingToken(TokenType type);
+  static bool isValidDataType(TokenType type);
+  static bool parser(std::vector<TokenType> &tokens);
+};
 
-void displayParsingStart();
-
-void displayParsingEnd();
-
-void displayParsing(std::vector<Token>& tokens);
-
-void eat(std::vector<Token>& tokens);
-
-bool isClosingToken(tokenTypes type);
-
-bool isValidDataType(tokenTypes type);
-
-bool parser(std::vector<Token>& tokens);
+}// namespace jpar

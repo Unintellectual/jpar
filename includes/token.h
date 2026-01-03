@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (c) 2026 Noah Victoriano official.noah.victoriano@gmail.com
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,31 +16,34 @@
 #pragma once
 
 #include <string>
-// Define valid token types
+#include <variant>
 
-typedef enum {
-  LEFTCURLYBRACKET,    // {
-  RIGHTCURLYBRACKET,   // }
-  LEFTSQUAREBRACKET,   // [
-  RIGHTSQUAREBRACKET,  // ]
-  LEFTROUNDBRACKET,    // (
-  RIGHTROUNDBRACKET,   // )
-  DOT,                 // .
-  COLON,               // :
-  COMMA,               // ,
-  DOUBLEQUOTE,         // "
-  STRINGVALUE,         // string
-  BOOLEAN,             // true, false
-  NUMBER,              // number
-  NULLVALUE,           // null
+namespace jpar {
+enum class TokenType {
+  LEFTCURLYBRACKET,// {
+  RIGHTCURLYBRACKET,// }
+  LEFTSQUAREBRACKET,// [
+  RIGHTSQUAREBRACKET,// ]
+  LEFTROUNDBRACKET,// (
+  RIGHTROUNDBRACKET,// )
+  DOT,// .
+  COLON,// :
+  COMMA,// ,
+  DOUBLEQUOTE,// "
+  STRINGVALUE,// string
+  BOOLEAN,// true, false
+  NUMBER,// number
+  NULLVALUE,// null
   UNKNOWN
-} tokenTypes_et;
+};
 
-typedef int tokenTypes;
+class Token
+{
+public:
+  Token(TokenType type, std::string value);
 
-// Define a token data type
-
-struct Token {
-  tokenTypes type;
+private:
+  TokenType type;
   std::string value;
 };
+}// namespace jpar

@@ -13,35 +13,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 
 #include <string>
-#include <vector>
+#include "includes/token.h"
 
-#include "./token.h"
+using namespace jpar;
 
-namespace jpar {
-
-class Lexer
+class Token
 {
-  std::string getTokenType(TokenType option);
-  void AddToken(std::vector<Token> &tokens, Token::tokenTypes type, std::string value);
-
-  bool isNumber(std::string input);
-
-  TokenType getValueType(std::string str);
-
-  bool isClosingBracketOrComma(char ch);
-
-  bool isValidEscapeCharacterForJSON(char ch);
-
-  bool isControlCharacter(char ch);
-
-  void displayTokens(std::vector<Token> &tokens);
-
-  bool isValidString(std::string &str);
-
-  void lexer(std::ifstream &file, std::vector<Token> &tokens);
+public:
+  Token(TokenType type, std::string value) : type(type), value(value) {};
 };
-
-};// namespace jpar
